@@ -1,0 +1,23 @@
+#!/sbin/runscript
+
+depend() {
+	need sshd
+}
+
+NAME=shadowsocks-server
+DAEMON=/usr/local/bin/ss-server
+PIDFILE=/var/run/${NAME}.pid
+CONFFILE=/etc/shadowsocks-libev/config.json
+
+start() {
+	ebegin "Starting ${NAME}"
+	start-stop-daemon --start --quiet --pidfile ${PIDFILE} --exec ${DAEMON} --test > /dev/null || return 1
+	start-stop-daemon --start --quiet --pidfile ${PIDFILE} --exec ${DAEMON} -- -c "${CONFFILE}" -u -f ${PIDFILE}
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping ${NAME}"
+	start-stop-daemon --stop --quiet --pidfile ${PIDFILE} --retry=KILL/5 --name ${NAME}
+	eend $?
+}
