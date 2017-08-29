@@ -1,4 +1,8 @@
 # shadowsocks-libev-gentoo
 shadowsocks-libev on gentoo
 
-/etc/init.d/shadowsocks-libev
+u can put this file into /etc/init.d/shadowsocks-libev
+
+# start/stop command
+'# sudo rc-server shadowsocks-libev start'
+'# sudo rc-server shadowsocks-libev stop'
